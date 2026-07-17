@@ -1,0 +1,178 @@
+---
+description: Apply 32 viral product principles when building landing pages, pricing, copy, OG assets, and product positioning. Use when creating or editing marketing surfaces, hero sections, paywalls, pricing tiers, CTAs, testimonials, or any user-facing page meant to convert and spread.
+globs:
+  - "landing/**"
+  - "marketing/**"
+  - "website/**"
+  - "**/landing/**"
+  - "**/marketing/**"
+  - "**/website/**"
+  - "**/pricing/**"
+  - "**/onboarding/**"
+  - "assets/**/*.md"
+alwaysApply: false
+---
+
+# Viral Product Principles
+
+32 principles for landing pages and product positioning. Complements `build-for-marketing.mdc` (shareability) and `seo-optimizer.mdc` (discoverability). This rule governs **conversion, pricing, copy, and positioning**.
+
+**How to apply:** transform the actual copy, layout, and pricing — never just list advice. Every change must satisfy a named principle below. If you can't fix something without product knowledge you don't have, flag it in the output; don't invent it.
+
+## Universal vs. defaults (read first)
+
+Not all 32 are equal. Treat them in two tiers:
+
+**Universal — always enforce.** These are plain good UX/copywriting and apply to every product: simple + emotional + memorable headline, numbers over adjectives, no weak words, one idea per screen, one primary CTA, CTA names the action, show before tell, problem-first empathy, sell the outcome not the feature, describable in under 10 words, OG image quality, testimonials before cold traffic, footer worth sharing, copy only you could write.
+
+**Strong defaults — apply unless the product justifies otherwise.** These are opinionated bets from one launch playbook. Use them as the default, but if the product model genuinely conflicts, deviate and **state why in the output**:
+
+| Default | Deviate when |
+|---------|--------------|
+| No free plan | Free-tier-led growth (PLG) is the core acquisition strategy |
+| Hard paywall (pay before signup) | Trust/onboarding requires account first (e.g. data import) |
+| One-time payment | Product delivers ongoing value/cost (hosting, sync, updates) |
+| Charge more than competitors | Deliberately competing on price/volume |
+| Three tiers max | A regulated/enterprise context needs a custom tier |
+
+Never silently break a working monetization model to satisfy a default. Surface the tradeoff.
+
+## Before you ship
+
+Run this checklist against every landing page, pricing page, or product launch surface:
+
+- [ ] Hero sells the product alone — outcome, demo, and CTA visible without scrolling
+- [ ] One idea per screen; one primary CTA per viewport
+- [ ] Headline is simple (fifth-grader test), emotional, and memorable
+- [ ] Copy uses numbers and concrete claims — no weak words (`most`, `many`, `rarely`)
+- [ ] Product shown before explained (demo, GIF, video, or interactive preview)
+- [ ] Problem described with empathy before the solution pitch
+- [ ] Pricing is impossible to miss — link in header, clear tiers
+- [ ] Testimonials or proof present — never launch proofless to cold traffic
+- [ ] Footer finishes strong — worth sharing even if they don't buy
+- [ ] OG image designed like a YouTube thumbnail
+- [ ] Product describable in under 10 words
+- [ ] Comparison table vs competitors where relevant
+- [ ] CTA says what happens next — not "Get Started"
+
+---
+
+## Positioning & focus
+
+**One thing.** Be known for solving one problem. If the page lists many unrelated capabilities, cut until one outcome dominates.
+
+**Ride a wave.** Tie the headline and hook to a trend, technology, or conversation people already have — don't invent demand from scratch.
+
+**Do something new.** Avoid clone positioning. Lead with what is surprising or never seen before.
+
+**Name & tagline.** Use words people already know. No wordplay, made-up words, or names that need explanation. Tagline under 10 words.
+
+**Sell desire, not features.** Frame around money, time, health, status, or less pain. Features are vehicles; outcomes are the product.
+
+**Copy only you could write.** If a competitor could paste your page unchanged, rewrite from real experience and customer language.
+
+**Steal from customers.** Prefer verbatim customer phrases over invented marketing speak.
+
+---
+
+## Hero & layout
+
+**One screen, one message.** Each section communicates exactly one idea — like an Instagram feed, not a brochure.
+
+**80% never scroll.** If the hero doesn't explain and sell in seconds, fix the hero before anything else.
+
+**Show, don't tell.** Demo before paragraphs. Founder screen recording beats corporate promo or feature walls.
+
+**Three colors max.** Black text. White background. One accent color for the Buy/primary action. Every extra color dilutes attention.
+
+**Founder visible.** People buy from people. Show face and voice when possible.
+
+**One CTA.** Every extra button creates hesitation. One next step only; secondary actions visually quiet.
+
+**CTA names the action.** Replace vague labels:
+- Weak: "Get Started", "Sign Up", "Learn More"
+- Strong: "Analyze My Website", "Generate My Report", "Buy Lifetime Access"
+
+---
+
+## Copy rules
+
+**Numbers over adjectives.** "Fast" → "Save 4 hours every week". "Powerful" → "Process 10,000 rows in 8 seconds".
+
+**No weak words.** Ban hedging: `most`, `many`, `rarely`, `often`, `usually`. Make clear, pictureable claims.
+
+**Emotional + memorable headline.** Aim for laugh, wow, or "what is this?" — not a feature list. If choosing between options, prefer the one people recall 24 hours later.
+- Weak: "AI-powered analytics platform for modern teams"
+- Strong: "Find the screen where you lose half your users"
+- Weak: "The all-in-one productivity solution"
+- Strong: "Reply to every email before lunch"
+
+**Simple words.** Mum test and fifth-grader test. Complexity kills curiosity.
+
+**Problem first.** Describe their pain better than they can — then present the solution.
+- Weak: "Our tool streamlines your invoicing workflow."
+- Strong: "You spend Sunday nights chasing invoices instead of with your kids."
+
+---
+
+## Pricing & monetization
+
+> These are **strong defaults**, not laws (see "Universal vs. defaults"). Apply them by default; if the product model conflicts, deviate and say why.
+
+**No free plan.** Free users rarely convert (<3%), inflate costs, and skew the roadmap. Remove free tiers; use demos on the landing page instead.
+
+**Hard paywall.** Ask for payment before asking for data or signup. Credit card = validation.
+
+**Popcorn pricing.** Three tiers max: Good, Better, Best. Each extra tier is another reason to leave.
+
+**Pricing in header.** Visitors use pricing to understand the product — not only the cost. Make it prominent.
+
+**Prefer one-time over subscription.** Subscriptions are harder to sell unless the product truly requires ongoing delivery.
+
+**Charge more.** Be more expensive than competitors when justified. Nobody talks about the second-cheapest option.
+
+**Let them play before they pay.** Put the best experience on the landing page — interactive demo, sample output, or live preview. Don't hide the magic behind signup.
+
+---
+
+## Social proof & sharing
+
+**Testimonials before traffic.** Collect quotes from users, friends, or beta testers before driving cold visitors.
+
+**Footer people share.** 97% won't buy but may share. End with something memorable — quote, stat, manifesto, or founder note.
+
+**OG image = YouTube thumbnail.** It is seen more than the site. Bold text, contrast, curiosity, one clear hook. If they don't click, they don't visit.
+
+**Competitor comparison.** People care why they should switch. Simple table: features customers actually care about; make the decision obvious.
+
+---
+
+## Resolve apparent conflicts
+
+These principles work together when applied correctly:
+
+| Tension | Resolution |
+|---------|------------|
+| No free plan vs try before pay | Demo/play on landing page; no ongoing free tier |
+| Hard paywall vs let them play | Interactive preview free; payment before account/data |
+| One CTA vs pricing in header | Header "Pricing" is navigation, not a second hero CTA |
+| Subscription vs one-time | Default to one-time unless product is inherently recurring |
+
+---
+
+## When editing
+
+- Make concrete copy, layout, and pricing changes — not a principles lecture
+- Preserve existing brand tone unless it violates simplicity or specificity rules
+- Cut sections that repeat the same message without a new reason to buy
+- Note which principle each change satisfies
+- Do not add fake testimonials, inflated stats, or manufactured urgency to satisfy proof rules
+
+## Output
+
+When applying this rule, finish with:
+
+- Principles applied (by number or name)
+- Copy/layout/pricing changes made
+- Any principles deferred and why (e.g. product requires subscription model)
+- Pre-ship checklist status — what still fails and needs user input

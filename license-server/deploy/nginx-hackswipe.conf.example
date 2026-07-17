@@ -1,0 +1,70 @@
+# Example nginx config for hackswipe.app production.
+# Install: sudo cp deploy/nginx-hackswipe.conf.example /etc/nginx/sites-available/hackswipe.app
+#          sudo ln -sf /etc/nginx/sites-available/hackswipe.app /etc/nginx/sites-enabled/
+#          sudo nginx -t && sudo systemctl reload nginx
+# SSL: sudo certbot --nginx -d hackswipe.app -d www.hackswipe.app
+#      sudo certbot --nginx -d license.hackswipe.app
+
+# Landing site — hackswipe.app (Next.js via PM2 on port 3010)
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name hackswipe.app www.hackswipe.app;
+
+    # ssl_certificate /etc/letsencrypt/live/hackswipe.app/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/hackswipe.app/privkey.pem;
+    # include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    # GitHub push webhook → scripts/github-deploy-webhook.js (systemd, port 19081)
+    location /hooks/deploy {
+        proxy_pass http://127.0.0.1:19081/hooks/deploy;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Hub-Signature-256 $http_x_hub_signature_256;
+        proxy_set_header X-GitHub-Event $http_x_github_event;
+        proxy_set_header X-GitHub-Delivery $http_x_github_delivery;
+        proxy_read_timeout 30s;
+        client_max_body_size 1m;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 300s;
+    }
+}
+
+# License server — license.hackswipe.app (systemd on port 3847)
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name license.hackswipe.app;
+
+    # ssl_certificate /etc/letsencrypt/live/license.hackswipe.app/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/license.hackswipe.app/privkey.pem;
+    # include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    location / {
+        proxy_pass http://127.0.0.1:3847;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 60s;
+    }
+}
