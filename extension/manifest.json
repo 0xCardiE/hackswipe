@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "HackSwipe",
   "version": "1.0.0",
-  "description": "Free, open-source Tinder auto-swiper with smart filters. Set age, distance, photos, and bio keywords — then let it swipe while you live your life.",
+  "description": "Free open-source Tinder auto swiper for Chrome. Auto-swipe with filters on tinder.com — no subscription, unlimited usage.",
   "permissions": [
     "sidePanel",
     "tabs",
