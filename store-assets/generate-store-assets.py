@@ -138,7 +138,7 @@ def draw_swipe_panel(width: int, height: int, *, running: bool, stats: tuple[int
 
     icon = load_icon(30)
     img.paste(icon, (16, 14), icon)
-    draw_panel_header(draw, 0, 0, width, trial_text="Day 2 of 3 free")
+    draw_panel_header(draw, 0, 0, width, trial_text="FREE · OPEN SOURCE")
     y = draw_nav_tabs(draw, 0, 56, width, active="Swipe")
 
     pad = 16
@@ -182,7 +182,7 @@ def draw_stats_panel(width: int, height: int) -> Image.Image:
 
     icon = load_icon(30)
     img.paste(icon, (16, 14), icon)
-    draw_panel_header(draw, 0, 0, width, trial_text="Day 2 of 3 free")
+    draw_panel_header(draw, 0, 0, width, trial_text="FREE · OPEN SOURCE")
     y = draw_nav_tabs(draw, 0, 56, width, active="Stats")
 
     pad = 16
@@ -219,7 +219,7 @@ def draw_settings_panel(width: int, height: int) -> Image.Image:
 
     icon = load_icon(30)
     img.paste(icon, (16, 14), icon)
-    draw_panel_header(draw, 0, 0, width, trial_text="Day 2 of 3 free")
+    draw_panel_header(draw, 0, 0, width, trial_text="FREE · OPEN SOURCE")
     y = draw_nav_tabs(draw, 0, 56, width, active="Settings")
 
     pad = 16
@@ -256,27 +256,27 @@ def draw_license_panel(width: int, height: int) -> Image.Image:
 
     icon = load_icon(30)
     img.paste(icon, (16, 14), icon)
-    draw_panel_header(draw, 0, 0, width, trial_text="Day 2 of 3 free")
+    draw_panel_header(draw, 0, 0, width, trial_text="FREE · OPEN SOURCE")
     y = draw_nav_tabs(draw, 0, 56, width, active="License")
 
     pad = 16
     rounded_rect(draw, (pad, y, width - pad, y + 34), 8, fill=(255, 45, 85, 16), outline=(255, 45, 85, 60))
-    draw.text((pad + 10, y + 10), "1 day left in your free trial", fill=ACCENT, font=font(10, bold=True))
+    draw.text((pad + 10, y + 10), "Unlimited. Free. Open source.", fill=ACCENT, font=font(10, bold=True))
     y += 46
 
     draw.text((pad, y), "LIFETIME LICENSE", fill=MUTED, font=font(8, bold=True))
     y += 18
-    draw.text((pad, y), "One-time $20 payment unlocks unlimited", fill=MUTED, font=font(9))
+    draw.text((pad, y), "MIT licensed — fork it, fix it, share it", fill=MUTED, font=font(9))
     draw.text((pad, y + 14), "swiping forever, plus future updates.", fill=MUTED, font=font(9))
     y += 36
 
     rounded_rect(draw, (pad, y, width - pad, y + 40), 20, fill=ACCENT)
-    label = "Get lifetime access — $20"
+    label = "View source on GitHub"
     tw = draw.textlength(label, font=font(12, bold=True))
     draw.text(((width - tw) / 2, y + 13), label, fill=WHITE, font=font(12, bold=True))
     y += 56
 
-    draw.text((pad, y), "Already purchased?", fill=MUTED, font=font(9))
+    draw.text((pad, y), "Pull requests welcome", fill=MUTED, font=font(9))
     y += 20
     for label, placeholder in [("Email", "you@example.com"), ("License key", "XXXX-XXXX-XXXX")]:
         draw.text((pad, y), label, fill=MUTED, font=font(9))
@@ -402,7 +402,7 @@ def draw_promo_small() -> Image.Image:
     rounded_rect(draw, (32, 220, 190, 256), 18, fill=ACCENT)
     draw.text((52, 232), "Add to Chrome", fill=WHITE, font=font(12, bold=True))
 
-    draw.text((208, 232), "3-day free trial", fill=MUTED, font=font(10))
+    draw.text((208, 232), "Free & open source", fill=MUTED, font=font(10))
     return img
 
 
@@ -450,7 +450,7 @@ def draw_promo_marquee() -> Image.Image:
         by += 36
 
     rounded_rect(draw, (72, 460, 330, 510), 24, fill=ACCENT)
-    draw.text((100, 476), "Add to Chrome — Free trial", fill=WHITE, font=font(15, bold=True))
+    draw.text((100, 476), "Add to Chrome — Free", fill=WHITE, font=font(15, bold=True))
 
     preview = compose_screenshot(panel="swipe", tab_title="Tinder")
     preview = preview.resize((480, 300), Image.Resampling.LANCZOS)

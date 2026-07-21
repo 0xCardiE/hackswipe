@@ -198,13 +198,6 @@ async function tick() {
   if (!state.running) return;
 
   try {
-    const allowed = await License.canSwipe();
-    if (!allowed) {
-      state.lastError = "Free trial ended. Activate a license to keep swiping.";
-      stopSession();
-      return;
-    }
-
     const likeBtn = findButton(LIKE_SELECTORS);
     const nopeBtn = findButton(NOPE_SELECTORS);
 
@@ -250,11 +243,6 @@ async function startSession(partialSettings) {
   }
 
   if (state.running) return buildStatus();
-
-  const allowed = await License.canSwipe();
-  if (!allowed) {
-    return buildStatus({ error: "Free trial ended. Activate a license to keep swiping." });
-  }
 
   state.running = true;
   state.stats = { totalSwipes: 0, likes: 0, nopes: 0, skippedByFilter: 0 };

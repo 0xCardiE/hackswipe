@@ -9,48 +9,17 @@ Thumbs.db
 *.swo
 *~
 
-# Environment & secrets
-.env
-.env.local
-.env.*.local
-license-server/.env
-landing/.env
-landing/.env.local
-*.pem
-credentials.json
-
 # Dependencies & build output
 node_modules/
 dist/
 build/
-.next/
-*.crx
-*.pem
-
-# Logs & temp
-*.log
-npm-debug.log*
-tmp/
-temp/
-
-# Downloaded exports (local test output)
-*.pdf
 
 # Chrome extension pack artifacts
 extension.zip
 hackswipe-v*.zip
 releases/
 
-# License server runtime data (never commit production DB)
-license-server/data/licenses.db
-license-server/data/licenses.db-*
-license-server/data/backups/
-license-server/logs/
-landing/logs/
-scripts/deploy-webhook.env
-scripts/logs/
-
-e2e/.env
-e2e/.data/
-e2e/test-results/
-e2e/playwright-report/
+# Logs & temp
+*.log
+tmp/
+temp/

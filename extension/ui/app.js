@@ -5,7 +5,6 @@ const filtersChipRow = document.getElementById("filters-chip-row");
 const lastActionEl = document.getElementById("last-action");
 const toast = document.getElementById("toast");
 const extVersionEl = document.getElementById("ext-version");
-const trialBadge = document.getElementById("trial-badge");
 
 const countTotal = document.getElementById("count-total");
 const countLikes = document.getElementById("count-likes");
@@ -31,19 +30,6 @@ const minDelayInput = document.getElementById("setting-min-delay");
 const maxDelayInput = document.getElementById("setting-max-delay");
 const likeRatioInput = document.getElementById("setting-like-ratio");
 const likeRatioValue = document.getElementById("like-ratio-value");
-
-const trialBanner = document.getElementById("trial-banner");
-const trialBannerText = document.getElementById("trial-banner-text");
-const licenseForm = document.getElementById("license-form");
-const licenseActive = document.getElementById("license-active");
-const licenseEmailEl = document.getElementById("license-email");
-const licenseEmailInput = document.getElementById("license-email-input");
-const licenseKeyInput = document.getElementById("license-key-input");
-const activateLicenseBtn = document.getElementById("activate-license-btn");
-const deactivateLicenseBtn = document.getElementById("deactivate-license-btn");
-const purchaseCta = document.getElementById("purchase-cta");
-const purchaseLink = document.getElementById("purchase-link");
-const licenseActivationLabel = document.getElementById("license-activation-label");
 
 let activeTabId = null;
 let isTinderTab = false;
@@ -161,8 +147,6 @@ async function refreshTabContext() {
 }
 
 async function pollStatus() {
-  const trial = await License.getTrialSummary();
-
   if (!isTinderTab) {
     setPageStatus("bad", "Open tinder.com to start swiping");
     setSwipeButton(true, false);
@@ -190,14 +174,6 @@ async function pollStatus() {
   renderCounters(status.stats);
   renderLastAction(status.lastAction);
 
-  if (!trial.canUse) {
-    if (sessionRunning) await sendToContent({ type: "STOP_SWIPE" });
-    setPageStatus("bad", "Free trial ended — activate a license to keep swiping");
-    setSwipeButton(true, false);
-    sessionRunning = false;
-    return;
-  }
-
   if (status.running) {
     setPageStatus("ok", "Swiping…", true);
     setSwipeButton(false, true);
@@ -216,14 +192,6 @@ async function toggleSwipe() {
   if (sessionRunning) {
     await sendToContent({ type: "STOP_SWIPE" });
   } else {
-    const trial = await License.getTrialSummary();
-    if (!trial.canUse) {
-      showToast("Free trial ended. Activate a license to keep swiping.", "error");
-      switchTab("license");
-      swipeBtn.disabled = false;
-      return;
-    }
-
     const response = await sendToContent({ type: "START_SWIPE" });
     if (response?.status?.error) {
       showToast(response.status.error, "error");
@@ -294,54 +262,6 @@ async function applySettingChange(partial) {
   if (isTinderTab) await sendToContent({ type: "UPDATE_FILTERS", settings: partial });
 }
 
-async function refreshLicenseUi() {
-  const summary = await License.getTrialSummary();
-  const record = await Storage.getLicenseRecord();
-
-  trialBadge.classList.remove("is-pro", "is-trial", "is-expired");
-  if (summary.isPro) {
-    trialBadge.textContent = "LIFETIME";
-    trialBadge.classList.add("is-pro");
-  } else if (summary.trialExpired) {
-    trialBadge.textContent = "TRIAL ENDED";
-    trialBadge.classList.add("is-expired");
-  } else {
-    trialBadge.textContent = `${summary.daysLeft}D LEFT`;
-    trialBadge.classList.add("is-trial");
-  }
-
-  trialBanner.classList.remove("is-expired", "is-pro");
-  if (summary.isPro) {
-    trialBanner.classList.add("is-pro");
-    trialBannerText.textContent = "You have lifetime access. Thanks for supporting HackSwipe!";
-  } else if (summary.trialExpired) {
-    trialBanner.classList.add("is-expired");
-    trialBannerText.textContent = "Your 3-day free trial has ended. Activate a license to keep auto-swiping.";
-  } else {
-    trialBannerText.textContent = `${summary.daysLeft} day${summary.daysLeft === 1 ? "" : "s"} left in your free trial — swipe away!`;
-  }
-
-  purchaseLink.href = HACKSWIPE_CONFIG.PRO_PURCHASE_URL;
-
-  if (summary.isPro && record) {
-    licenseActive.classList.remove("hidden");
-    licenseForm.classList.add("hidden");
-    licenseEmailEl.textContent = record.email;
-    purchaseCta.classList.add("hidden");
-    licenseActivationLabel.classList.add("hidden");
-  } else {
-    licenseActive.classList.add("hidden");
-    licenseForm.classList.remove("hidden");
-    purchaseCta.classList.remove("hidden");
-    licenseActivationLabel.classList.remove("hidden");
-  }
-}
-
-async function initLicenseState() {
-  await License.verifyStoredLicense();
-  await refreshLicenseUi();
-}
-
 document.querySelectorAll(".nav-tab").forEach((btn) => {
   btn.addEventListener("click", () => switchTab(btn.dataset.tab));
 });
@@ -369,55 +289,16 @@ likeRatioInput.addEventListener("input", () => {
 });
 likeRatioInput.addEventListener("change", () => applySettingChange({ likeRatio: Number(likeRatioInput.value) / 100 }));
 
-licenseForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const email = licenseEmailInput.value.trim();
-  const licenseKey = licenseKeyInput.value.trim();
-  if (!email || !licenseKey) return;
-
-  activateLicenseBtn.disabled = true;
-  activateLicenseBtn.textContent = "Activating…";
-
-  try {
-    await License.activate(email, licenseKey);
-    licenseKeyInput.value = "";
-    showToast("Lifetime license activated!");
-    await refreshLicenseUi();
-    await pollStatus();
-  } catch (error) {
-    showToast(error.message, "error");
-  } finally {
-    activateLicenseBtn.disabled = false;
-    activateLicenseBtn.textContent = "Activate license";
-  }
-});
-
-deactivateLicenseBtn.addEventListener("click", async () => {
-  deactivateLicenseBtn.disabled = true;
-  try {
-    await License.deactivate();
-    showToast("License removed from this browser");
-    await refreshLicenseUi();
-    await pollStatus();
-  } catch (error) {
-    showToast(error.message, "error");
-  } finally {
-    deactivateLicenseBtn.disabled = false;
-  }
-});
-
 chrome.tabs.onActivated.addListener(refreshTabContext);
 chrome.tabs.onUpdated.addListener((_tabId, info) => {
   if (info.url || info.status === "complete") refreshTabContext();
 });
 
 loadSettingsUi();
-initLicenseState();
 refreshTabContext();
 
 setInterval(() => {
   pollStatus();
-  refreshLicenseUi();
   const activePanel = document.querySelector(".tab-panel.is-active");
   if (activePanel?.id === "tab-stats") renderStatsTab();
 }, 2500);

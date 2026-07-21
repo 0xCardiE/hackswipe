@@ -49,46 +49,6 @@ function migrateSwipeSettings(raw) {
 }
 
 const Storage = {
-  async getInstallationId() {
-    const { installationId } = await chrome.storage.local.get("installationId");
-    if (installationId) return installationId;
-
-    const bytes = new Uint8Array(16);
-    crypto.getRandomValues(bytes);
-    const id = `hs_${Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("")}`;
-    await chrome.storage.local.set({ installationId: id });
-    return id;
-  },
-
-  async getLicenseRecord() {
-    const { licenseRecord } = await chrome.storage.local.get("licenseRecord");
-    return licenseRecord || null;
-  },
-
-  async saveLicenseRecord(record) {
-    await chrome.storage.local.set({ licenseRecord: record });
-    return record;
-  },
-
-  async clearLicenseRecord() {
-    await chrome.storage.local.remove("licenseRecord");
-  },
-
-  /** Set once, the first time the extension runs. Trial length is fixed relative to this timestamp. */
-  async ensureTrialStarted() {
-    const { trialStartedAt } = await chrome.storage.local.get("trialStartedAt");
-    if (trialStartedAt) return trialStartedAt;
-
-    const now = new Date().toISOString();
-    await chrome.storage.local.set({ trialStartedAt: now });
-    return now;
-  },
-
-  async getTrialStartedAt() {
-    const { trialStartedAt } = await chrome.storage.local.get("trialStartedAt");
-    return trialStartedAt || null;
-  },
-
   async getSwipeSettings() {
     const { swipeSettings } = await chrome.storage.local.get("swipeSettings");
     return migrateSwipeSettings(swipeSettings);
@@ -113,7 +73,6 @@ const Storage = {
     return next;
   },
 
-  /** Adds deltas to the lifetime counters, e.g. { likes: 1, totalSwipes: 1 }. */
   async addSessionStats(deltas) {
     const current = await this.getSessionStats();
     const next = { ...current };
